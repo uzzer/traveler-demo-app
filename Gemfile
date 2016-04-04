@@ -9,6 +9,10 @@ gem 'coffee-rails', '~> 4.1.0'
 gem 'jquery-rails'
 gem 'turbolinks'
 
+group :development, :test do
+  gem 'rspec-rails', '~> 3.0'
+end
+
 group :development do
   gem 'spring'
 end
