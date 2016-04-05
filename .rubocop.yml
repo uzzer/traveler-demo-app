@@ -16,3 +16,8 @@ Style/Documentation:
 
 Style/Encoding:
   Enabled: false
+
+Metrics/LineLength:
+  Enabled: true
+  Exclude:
+    - 'db/schema.rb'
