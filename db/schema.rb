@@ -18,4 +18,12 @@ ActiveRecord::Schema.define(version: 20_160_405_010_801) do
   create_table 'cities', force: :cascade do |t|
     t.string 'name'
   end
+
+  create_table 'routes', force: :cascade do |t|
+    t.integer 'source_city_id'
+    t.integer 'destination_city_id'
+    t.float 'distance'
+  end
+
+  add_index 'routes', ['source_city_id'], name: 'index_routes_on_source_city_id', using: :btree
 end
