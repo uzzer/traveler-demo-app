@@ -16,6 +16,7 @@ feature 'Shortest route form', type: :feature do
       it 'has source selector' do
         expect(page).to have_css('#source')
       end
+
       it 'has correct set of options in source' do
         expect(page).to(
           have_select(
@@ -24,9 +25,11 @@ feature 'Shortest route form', type: :feature do
           )
         )
       end
+
       it 'has destination selector' do
         expect(page).to have_css('#destination')
       end
+
       it 'has correct set of options in destination' do
         expect(page).to(
           have_select(
@@ -35,9 +38,11 @@ feature 'Shortest route form', type: :feature do
           )
         )
       end
+
       it 'has submit button' do
         expect(page).to have_css('#submit_query')
       end
+
       it 'submits on button' do
         click_on('Submit')
         expect(current_path).to eq shortest_route_result_path
@@ -45,32 +50,46 @@ feature 'Shortest route form', type: :feature do
     end
     context 'submitted form' do
       context 'successful form' do
-        let(:success_text) { 'Connection found' }
         let!(:city_a) { create(:city) }
         let!(:city_b) { create(:city) }
+
+        let(:success_text) { 'Connection found' }
         let!(:route_1) do
           create(:route,
                  source_city: city_a,
                  destination_city: city_b)
         end
+
         before do
           visit shortest_route_lookup_path
           select city_a.name, from: 'source'
           select city_b.name, from: 'destination'
           click_on('Submit')
         end
+
         it 'displays correct response text' do
           expect(page).to have_content(success_text)
         end
+
         it 'displays shortest route length' do
           expect(page).to have_content(route_1.distance)
         end
       end
       context 'non successful form' do
+        let!(:city_a) { create(:city) }
+        let!(:city_b) { create(:city) }
         before do
-          # TODO: add code to prepare non successful submit
+          visit shortest_route_lookup_path
+          select city_a.name, from: 'source'
+          select city_b.name, from: 'destination'
+          click_on('Submit')
         end
-        it 'displays correct unsuccessful response meessage'
+
+        let(:failure_text) { 'Connection not found' }
+
+        it 'displays correct unsuccessful response meessage' do
+          expect(page).to have_content(failure_text)
+        end
       end
     end
   end
