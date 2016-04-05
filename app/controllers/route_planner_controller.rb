@@ -7,13 +7,23 @@ class RoutePlannerController < ApplicationController
     source = City.find_by_id(params['query']['source'])
     destination = City.find_by_id(params['query']['destination'])
 
-    route =
-      Route.find_by(
-        source_city: source,
-        destination_city: destination
-      )
+    success, _, distance =
+      prepare_graph.shortest_path(source.id, destination.id)
 
-    @response_text = route ? 'Connection found' : 'Connection not found'
-    @distance = route.distance if route
+    @response_text = success ? 'Connection found' : 'Connection not found'
+    @distance = distance if success
+  end
+
+  private
+
+  # TODO: Extract to helper
+  def prepare_graph
+    self_routes = City.pluck(:id).map { |id| [id, id, 0] }
+    db_routes = Route.pluck(
+      :source_city_id,
+      :destination_city_id,
+      :distance
+    )
+    Graph.new.fill_from_array(db_routes + self_routes)
   end
 end
