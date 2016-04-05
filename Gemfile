@@ -14,7 +14,8 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'rspec-rails', '~> 3.0'
   gem 'capybara'
-  gem 'factory_girl'
+  gem 'factory_girl_rails'
+  gem 'faker'
   gem 'rubocop', require: false
 end
 
