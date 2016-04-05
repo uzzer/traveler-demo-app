@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 feature 'Shortest route form', type: :feature do
+  let(:city_name_one) { Faker::Address.city  }
+  let(:city_name_two) { Faker::Address.city  }
   before do
+    FactoryGirl.create(:city, name: city_name_one)
+    FactoryGirl.create(:city, name: city_name_two)
     visit shortest_route_lookup_path
   end
   describe 'UI' do
@@ -12,8 +16,14 @@ feature 'Shortest route form', type: :feature do
       it 'has source selector' do
         expect(page).to have_css('#source')
       end
+      it 'has correct set of options in source' do
+        expect(page).to have_select('source', options: [city_name_one, city_name_two])
+      end
       it 'has destination selector' do
         expect(page).to have_css('#destination')
+      end
+      it 'has correct set of options in destination' do
+        expect(page).to have_select('source', options: [city_name_one, city_name_two])
       end
       it 'has submit button' do
         expect(page).to have_css('#submit_query')
@@ -26,7 +36,12 @@ feature 'Shortest route form', type: :feature do
     context 'submitted form' do
       context 'successful form' do
         before do
-          # TODO: add code to prepare successful submit
+          a = create(:city, name: 'Berlin')
+          b = create(:city, name: 'Paris')
+          create(:route, source_city: a, destination_cty: b, distance: 1)
+
+          visit shortest_route_lookup_path
+          select
         end
         it 'displays correct response text'
         it 'displays shortest route length'

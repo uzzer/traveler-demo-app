@@ -1,5 +1,4 @@
 = form_tag(shortest_route_result_url, method: "post") do
-  = label_tag(:source, "Search for:")
-  = select("query", "source", [], {include_blank: false}, {id: 'source'})
-  = select("query", "destination", [], {include_blank: false}, {id: 'destination'})
+  = select("query", "source", @city_name_attributes, {include_blank: false}, {id: 'source'})
+  = select("query", "destination", @city_name_attributes, {include_blank: false}, {id: 'destination'})
   = submit_tag 'Submit', { id: 'submit_query'}
