@@ -18,7 +18,7 @@ feature 'Shortest route form', type: :feature do
       end
       it 'has correct set of options in source' do
         expect(page).to(
-          have_selector(
+          have_select(
             'source',
             options: [city_name_one, city_name_two]
           )
@@ -29,7 +29,7 @@ feature 'Shortest route form', type: :feature do
       end
       it 'has correct set of options in destination' do
         expect(page).to(
-          have_selector(
+          have_select(
             'destination',
             options: [city_name_one, city_name_two]
           )
